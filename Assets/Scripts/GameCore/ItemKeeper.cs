@@ -14,6 +14,11 @@ namespace Game.Core
         private int _maxCapacity;
         private IItemPlacement _itemPlacement;
 
+        public void SetItemPlacementBehaviour(IItemPlacement itemPlacement)
+        {
+            _itemPlacement = itemPlacement;
+        }
+
         public void SetCapacity(int capacity)
         {
             if (capacity < 0)
@@ -27,10 +32,12 @@ namespace Game.Core
             if (_item.Contains(item) || _item.Count + 1 > _maxCapacity)
                 return false;
 
-            OnAddItem(item); // 1
-            _item.Add(item); // 2
+            bool isPlaced = TryPlaceItem(item); // 1
 
-            return true;
+            if (isPlaced)
+                _item.Add(item); // 2
+
+            return isPlaced;
         }
 
         public Item TryGetItem(out Item item)
@@ -47,45 +54,24 @@ namespace Game.Core
             return item;
         }
 
-        private void OnAddItem(Item addedItem)
+        private bool TryPlaceItem(Item addedItem)
         {
+            bool isPlaced;
             int itemsCount = _item.Count;
-
-            if (itemsCount < 0)
-            {
-                _itemPlacement.OnAddItem(addedItem, null, itemsCount);
-
-                return;
-            }
-
-            Item lastItem = _item[itemsCount - 1];
 
             addedItem.transform.parent = _itemsParent;
 
-            _itemPlacement.OnAddItem(addedItem, lastItem, itemsCount);
-        }
-    }
+            if (itemsCount <= 0)
+            {
+                isPlaced = _itemPlacement.TryPlaceItem(addedItem, null, itemsCount);
 
-    public interface IItemPlacement
-    {
-        void OnAddItem(Item addedItem, Item lastItem, int itemCount);
-    }
+                return isPlaced;
+            }
 
-    public class VerticalItemPlacementBehaviour : MonoBehaviour, IItemPlacement
-    {
-        private Transform _keepItemsPoint;
+            Item lastItem = _item[itemsCount - 1];
+            isPlaced = _itemPlacement.TryPlaceItem(addedItem, lastItem, itemsCount);
 
-        public VerticalItemPlacementBehaviour(Transform keepItemsPoint)
-        {
-            _keepItemsPoint = keepItemsPoint;
-        }
-
-        public void OnAddItem(Item addedItem, Item lastItem, int itemCount)
-        {
-            Vector3 lastPosition = lastItem.transform.localPosition;
-            Vector3 newPosition = lastPosition;
-            newPosition.y += addedItem.Height;
-            addedItem.transform.localPosition = newPosition;
+            return isPlaced;
         }
     }
 }

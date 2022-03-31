@@ -27,9 +27,4 @@ namespace Game.Core
             Height = meshFilter.sharedMesh.bounds.size.y;
         }
     }
-
-    public class CommonItem : Item
-    {
-
-    }
 }

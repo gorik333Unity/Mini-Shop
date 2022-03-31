@@ -22,6 +22,11 @@ namespace Game.Core
             _itemMoveable.Move(item);
         }
 
+        public void SetItemKeeperPlacementBehaviour(IItemPlacement itemPlacement)
+        {
+            ItemKeeper.SetItemPlacementBehaviour(itemPlacement);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             var itemKeeper = other.GetComponent<ItemKeeper>();
@@ -43,21 +48,5 @@ namespace Game.Core
         protected abstract void StartItemProcess(ItemKeeper itemKeeper);
 
         protected abstract void StopItemProcess(ItemKeeper itemKeeper);
-    }
-
-    public class ItemJumpMoveBehaviour : MonoBehaviour, IItemMoveable
-    {
-        public void Move(Item item)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    public class ItemDirectMoveBehaviour : MonoBehaviour, IItemMoveable
-    {
-        public void Move(Item item)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

@@ -15,12 +15,12 @@ namespace Game.Scriptable
 
         [Min(1)]
         [SerializeField]
-        private int _stackItemsCapacity;
+        private int _itemsCapacity;
 
         public float MovementSpeed { get { return _movementSpeed; } }
 
         public float AngularSpeed { get { return _angularSpeed; } }
 
-        public int StackItemsCapacity { get { return _stackItemsCapacity; } }
+        public int ItemsCapacity { get { return _itemsCapacity; } }
     }
 }
