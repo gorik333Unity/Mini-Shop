@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 488d4c49fb55c9c45be40c960be0b8c2, type: 3}
-  m_Name: Level_2_CommonPlayer
+  m_Name: Level_1_CommonPlayer
   m_EditorClassIdentifier: 
-  _movementSpeed: 1.5
-  _angularSpeed: 180
-  _stackItemsCapacity: 4
+  _movementSpeed: 3.5
+  _angularSpeed: 150
+  _stackItemsCapacity: 2

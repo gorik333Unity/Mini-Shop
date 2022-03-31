@@ -55,8 +55,17 @@ namespace Game.Core
 
         private void SetUpDataComponents()
         {
-            _agent.speed = _playerData[m_currentLevel].MovementSpeed;
-            _agent.angularSpeed = _playerData[m_currentLevel].StackItemsCapacity;
+            int desiredLevel = m_currentLevel;
+
+            if (desiredLevel >= _playerData.Length)
+            {
+                desiredLevel = _playerData.Length - 1;
+
+                Debug.LogWarning("Max level reached");
+            }
+
+            _agent.speed = _playerData[desiredLevel].MovementSpeed;
+            _agent.angularSpeed = _playerData[desiredLevel].StackItemsCapacity;
         }
     }
 }

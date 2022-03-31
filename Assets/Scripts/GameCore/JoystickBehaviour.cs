@@ -32,6 +32,10 @@ namespace Game.Core
             while (true)
             {
                 Vector3 direction = GetJoystickDirection(_joystick.Direction);
+
+                if (direction == Vector3.zero)
+                    yield return null;
+
                 Vector3 position = _entityTransform.position;
                 Vector3 movePosition = position + direction;
 
