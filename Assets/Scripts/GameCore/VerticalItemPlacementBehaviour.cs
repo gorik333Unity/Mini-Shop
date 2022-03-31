@@ -11,19 +11,18 @@ namespace Game.Core
             _keepItemsPoint = keepItemsPoint;
         }
 
-        public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount)
+        public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount, out Vector3 placePosition)
         {
             if (lastItem == null)
             {
                 addedItem.transform.localPosition = _keepItemsPoint.localPosition;
+                placePosition = _keepItemsPoint.localPosition;
 
                 return true;
             }
 
-            Vector3 lastPosition = lastItem.transform.localPosition;
-            Vector3 newPosition = lastPosition;
-            newPosition.y += addedItem.Height;
-            addedItem.transform.localPosition = newPosition;
+            placePosition = lastItem.transform.localPosition;
+            placePosition.y += addedItem.Height;
 
             return true;
         }

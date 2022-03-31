@@ -6,7 +6,7 @@ using Game.Core;
 [RequireComponent(typeof(ItemKeeper))]
 public class ItemSpawner : MonoBehaviour
 {
-    private const float CHECK_IF_CAN_SPAWN_DELAY = 1f;
+    private const float SPAWN_DELAY = 1f;
 
     [SerializeField]
     private Item _item;
@@ -24,16 +24,25 @@ public class ItemSpawner : MonoBehaviour
 
     private IEnumerator IESpawnItems()
     {
+        int count = 0;
+
         while (true)
         {
-            var item = Instantiate(_item);
+            Item item = Instantiate(_item);
 
-            if (_keeper.TryAddItem(item))
+            if (_keeper.TryAddItem(item, out Vector3 localPosition))
+            {
+                item.transform.position = localPosition;
+
+                item.name = $"{count}";
+                count++;
+
                 yield return new WaitForSeconds(_spawnDelay);
+            }
             else
                 Destroy(item.gameObject);
 
-            yield return new WaitForSeconds(CHECK_IF_CAN_SPAWN_DELAY);
+            yield return new WaitForSeconds(SPAWN_DELAY);
         }
     }
 }

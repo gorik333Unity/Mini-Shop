@@ -24,7 +24,7 @@ namespace Game.Core
             if (meshFilter == null)
                 throw new ArgumentException("No mesh filter on the object.");
 
-            Height = meshFilter.sharedMesh.bounds.size.y;
+            Height = meshFilter.sharedMesh.bounds.size.y * meshFilter.transform.localScale.y;
         }
     }
 }

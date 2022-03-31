@@ -10,6 +10,12 @@ public class CommonPlayer : Entity
     private Joystick _joystick;
 
     [SerializeField]
+    private ItemKeeper _itemKeeper;
+
+    [SerializeField]
+    private Transform _itemsHoldPoint;
+
+    [SerializeField]
     private PlayerCharacteristicsData[] _playerData;
 
     private NavMeshAgent _agent;
@@ -18,6 +24,8 @@ public class CommonPlayer : Entity
     {
         SetMoveable(new JoystickBehaviour(_joystick, _agent, transform));
         ExecuteMoveable();
+
+        _itemKeeper.SetItemPlacementBehaviour(new VerticalItemPlacementBehaviour(_itemsHoldPoint));
     }
 
     public override void IncreaseLevel()
@@ -64,6 +72,8 @@ public class CommonPlayer : Entity
         }
 
         _agent.speed = _playerData[desiredLevel].MovementSpeed;
-        _agent.angularSpeed = _playerData[desiredLevel].ItemsCapacity;
+        _agent.angularSpeed = _playerData[desiredLevel].AngularSpeed;
+
+        _itemKeeper.SetCapacity(_playerData[desiredLevel].ItemsCapacity);
     }
 }

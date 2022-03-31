@@ -18,12 +18,14 @@ namespace Game.Core
                 _keepItemsPoint.Add(item);
         }
 
-        public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount)
+        public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount, out Vector3 placePosition)
         {
+            placePosition = Vector3.zero;
+
             if (itemCount >= _keepItemsPoint.Count || itemCount < 0)
                 return false;
 
-            addedItem.transform.position = _keepItemsPoint[itemCount].position;
+            placePosition = _keepItemsPoint[itemCount].position;
 
             return true;
         }

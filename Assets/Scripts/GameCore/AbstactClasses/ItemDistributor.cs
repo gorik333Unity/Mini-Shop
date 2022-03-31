@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Game.Core
 {
-    [RequireComponent(typeof(ItemKeeper))]
     public abstract class ItemDistributor : MonoBehaviour
     {
         [SerializeField]
@@ -17,19 +16,17 @@ namespace Game.Core
             _itemMoveable = moveable;
         }
 
-        public void ExecuteItemMoveBehaviour(Item item)
+        public void ExecuteItemMoveBehaviour(Item item, Vector3 movePosition)
         {
-            _itemMoveable.Move(item);
-        }
-
-        public void SetItemKeeperPlacementBehaviour(IItemPlacement itemPlacement)
-        {
-            ItemKeeper.SetItemPlacementBehaviour(itemPlacement);
+            _itemMoveable.Move(item, movePosition);
         }
 
         private void OnTriggerEnter(Collider other)
         {
             var itemKeeper = other.GetComponent<ItemKeeper>();
+
+            if (itemKeeper == null)
+                itemKeeper = other.GetComponentInParent<ItemKeeper>();
 
             if (itemKeeper != null)
                 StartItemProcess(itemKeeper);
@@ -38,6 +35,9 @@ namespace Game.Core
         private void OnTriggerExit(Collider other)
         {
             var itemKeeper = other.GetComponent<ItemKeeper>();
+
+            if (itemKeeper == null)
+                itemKeeper = other.GetComponentInParent<ItemKeeper>();
 
             if (itemKeeper != null)
                 StopItemProcess(itemKeeper);

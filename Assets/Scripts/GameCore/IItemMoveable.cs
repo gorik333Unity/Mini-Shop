@@ -1,7 +1,9 @@
-﻿namespace Game.Core
+﻿using UnityEngine;
+
+namespace Game.Core
 {
     public interface IItemMoveable
     {
-        void Move(Item item);
+        void Move(Item item, Vector3 movePosition);
     }
 }

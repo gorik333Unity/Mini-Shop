@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Level_2_CommonPlayer
   m_EditorClassIdentifier: 
   _movementSpeed: 4.5
-  _angularSpeed: 180
-  _stackItemsCapacity: 4
+  _angularSpeed: 280
+  _itemsCapacity: 6

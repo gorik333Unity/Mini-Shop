@@ -26,15 +26,22 @@ namespace Game.Core
                 StopCoroutine(_receiveItemC);
         }
 
+        private void Start()
+        {
+            InitializeBehaviours();
+        }
+
         private IEnumerator IEReceiveItem(ItemKeeper otherKeeper)
         {
             while (true)
             {
                 if (otherKeeper.TryGetItem(out Item item))
                 {
-                    if (ItemKeeper.TryAddItem(item))
+                    if (ItemKeeper.TryAddItem(item, out Vector3 localPosition))
                     {
-                        ExecuteItemMoveBehaviour(item);
+                        otherKeeper.TryRemoveItem(item);
+
+                        ExecuteItemMoveBehaviour(item, localPosition);
 
                         yield return new WaitForSeconds(_receiveDelay);
                     }

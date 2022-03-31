@@ -13,15 +13,12 @@ public class GiveItemsStand : Entity
     private Transform _standModelParent;
 
     [SerializeField]
-    private ItemDistributor _itemDistributor;
-
-    [SerializeField]
     private ItemSpawner _itemSpawner;
 
     [SerializeField]
     private ItemKeeper _itemKeeper;
 
-    private Transform[] _spawnPoint;
+    private Transform[] _itemsPlacementPoint;
 
     public override void IncreaseLevel()
     {
@@ -32,7 +29,7 @@ public class GiveItemsStand : Entity
 
     public override void InitializeBehaviours()
     {
-        throw new NotImplementedException();
+        _itemKeeper.SetItemPlacementBehaviour(new HorizontalItemPlacementBehaviour(_itemsPlacementPoint));
     }
 
     public override void SetLevel(int level)
@@ -47,7 +44,7 @@ public class GiveItemsStand : Entity
 
     private void Start()
     {
-        _itemDistributor.SetItemKeeperPlacementBehaviour(new HorizontalItemPlacementBehaviour(_spawnPoint));
+        InitializeBehaviours();
 
         _itemSpawner.StartSpawn();
     }
@@ -75,10 +72,8 @@ public class GiveItemsStand : Entity
         var pointsTransform = new List<Transform>();
 
         foreach (var point in points)
-        {
             pointsTransform.Add(point.transform);
-        }
 
-        _spawnPoint = pointsTransform.ToArray();
+        _itemsPlacementPoint = pointsTransform.ToArray();
     }
 }

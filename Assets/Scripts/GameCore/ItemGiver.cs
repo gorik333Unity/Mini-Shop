@@ -12,7 +12,7 @@ namespace Game.Core
 
         public override void InitializeBehaviours()
         {
-            SetItemMoveBehaviour(new ItemDirectMoveBehaviour());
+            SetItemMoveBehaviour(new ItemJumpMoveBehaviour());
         }
 
         protected override void StartItemProcess(ItemKeeper itemKeeper)
@@ -26,15 +26,22 @@ namespace Game.Core
                 StopCoroutine(_giveItemC);
         }
 
+        private void Start()
+        {
+            InitializeBehaviours();
+        }
+
         private IEnumerator IEGiveItem(ItemKeeper otherKeeper)
         {
             while (true)
             {
                 if (ItemKeeper.TryGetItem(out Item item))
                 {
-                    if (otherKeeper.TryAddItem(item))
+                    if (otherKeeper.TryAddItem(item, out Vector3 localPosition))
                     {
-                        ExecuteItemMoveBehaviour(item);
+                        ItemKeeper.TryRemoveItem(item);
+
+                        ExecuteItemMoveBehaviour(item, localPosition);
 
                         yield return new WaitForSeconds(_giveDelay);
                     }
