@@ -106,6 +106,18 @@ namespace Game.Core
             return true;
         }
 
+        public int GetItemsPrice()
+        {
+            int price = 0;
+
+            foreach(var item in _item)
+            {
+                price += item.Price;
+            }
+
+            return price;
+        }
+
         private bool TryPlaceItem(Item addedItem, out Vector3 localPosition)
         {
             bool isPlaced;
