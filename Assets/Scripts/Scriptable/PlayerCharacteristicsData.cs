@@ -7,15 +7,15 @@ namespace Game.Scriptable
     {
         [Min(1f)]
         [SerializeField]
-        private float _movementSpeed;
+        private float _movementSpeed = 1f;
 
         [Min(10f)]
         [SerializeField]
-        private float _angularSpeed;
+        private float _angularSpeed = 10f;
 
         [Min(1)]
         [SerializeField]
-        private int _itemsCapacity;
+        private int _itemsCapacity = 1;
 
         public float MovementSpeed { get { return _movementSpeed; } }
 

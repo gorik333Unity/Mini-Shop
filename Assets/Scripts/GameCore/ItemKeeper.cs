@@ -14,6 +14,9 @@ namespace Game.Core
         private int _maxCapacity;
         private IItemPlacement _itemPlacement;
 
+        public Action<Item> OnAdded;
+        public Action<Item> OnTook;
+
         public void SetItemPlacementBehaviour(IItemPlacement itemPlacement)
         {
             _itemPlacement = itemPlacement;
@@ -27,26 +30,21 @@ namespace Game.Core
             _maxCapacity = capacity;
         }
 
-        public bool TryAddItem(Item item, out Vector3 localPosition)
+        public bool CanAddItem(Item item, out Vector3 localPosition)
         {
             localPosition = Vector3.zero;
 
             if (_item.Contains(item) || _item.Count + 1 > _maxCapacity)
                 return false;
 
-            bool isPlaced = TryPlaceItem(item, out Vector3 placePosition); // 1
+            bool isPlaced = TryPlaceItem(item, out Vector3 placePosition);
 
             localPosition = placePosition;
-
-            if (isPlaced)
-            {
-                _item.Add(item); // 2
-            }
 
             return isPlaced;
         }
 
-        public Item TryGetItem(out Item item)
+        public Item CanGetItem(out Item item)
         {
             item = null;
 
@@ -61,6 +59,30 @@ namespace Game.Core
             return item;
         }
 
+        public void AddItem(Item item)
+        {
+            if (_item.Contains(item))
+                throw new ArgumentException("Item is already in list");
+
+            OnAdded?.Invoke(item);
+
+            _item.Add(item);
+        }
+
+        public Item GetItem()
+        {
+            if (_item.Count == 0)
+                throw new ArgumentNullException("Item list is empty");
+
+            Item getItem = _item[0];
+
+            OnTook?.Invoke(getItem);
+
+            _item.Remove(getItem);
+
+            return getItem;
+        }
+
         public bool TryRemoveItem(Item item)
         {
             if (_item.Contains(item))
@@ -71,6 +93,19 @@ namespace Game.Core
             }
 
             return false;
+        }
+
+        public bool TryClearKeeper()
+        {
+            if (_item.Count == 0)
+                return false;
+
+            for (int i = 0; i < _item.Count; i++)
+                Destroy(_item[i].gameObject);
+
+            _item.Clear();
+
+            return true;
         }
 
         private bool TryPlaceItem(Item addedItem, out Vector3 localPosition)

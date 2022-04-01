@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Game.Core
 {
@@ -8,22 +9,27 @@ namespace Game.Core
         [SerializeField]
         private float _giveDelay;
 
-        private Coroutine _giveItemC;
+        private readonly Dictionary<ItemKeeper, Coroutine> _giveItemC = new Dictionary<ItemKeeper, Coroutine>();
 
         public override void InitializeBehaviours()
         {
             SetItemMoveBehaviour(new ItemJumpMoveBehaviour());
         }
 
-        protected override void StartItemProcess(ItemKeeper itemKeeper)
+        protected override void StartItemProcess(ItemKeeper otherKeeper)
         {
-            _giveItemC = StartCoroutine(IEGiveItem(itemKeeper));
+            if (!_giveItemC.ContainsKey(otherKeeper))
+                _giveItemC.Add(otherKeeper, StartCoroutine(IEGiveItem(otherKeeper)));
         }
 
-        protected override void StopItemProcess(ItemKeeper itemKeeper)
+        protected override void StopItemProcess(ItemKeeper otherKeeper)
         {
-            if (_giveItemC != null)
-                StopCoroutine(_giveItemC);
+            if (_giveItemC.TryGetValue(otherKeeper, out Coroutine value))
+            {
+                _giveItemC.Remove(otherKeeper);
+
+                StopCoroutine(value);
+            }
         }
 
         private void Start()
@@ -35,13 +41,11 @@ namespace Game.Core
         {
             while (true)
             {
-                if (ItemKeeper.TryGetItem(out Item item))
+                if (ItemKeeper.CanGetItem(out Item item))
                 {
-                    if (otherKeeper.TryAddItem(item, out Vector3 localPosition))
+                    if (otherKeeper.CanAddItem(item, out Vector3 localPosition))
                     {
-                        ItemKeeper.TryRemoveItem(item);
-
-                        ExecuteItemMoveBehaviour(item, localPosition);
+                        ExecuteItemMoveBehaviour(ItemKeeper, otherKeeper, localPosition);
 
                         yield return new WaitForSeconds(_giveDelay);
                     }

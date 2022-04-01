@@ -16,9 +16,9 @@ namespace Game.Core
             _itemMoveable = moveable;
         }
 
-        public void ExecuteItemMoveBehaviour(Item item, Vector3 movePosition)
+        public void ExecuteItemMoveBehaviour(ItemKeeper giver, ItemKeeper receiver, Vector3 movePosition)
         {
-            _itemMoveable.Move(item, movePosition);
+            _itemMoveable.Move(giver, receiver, movePosition);
         }
 
         private void OnTriggerEnter(Collider other)

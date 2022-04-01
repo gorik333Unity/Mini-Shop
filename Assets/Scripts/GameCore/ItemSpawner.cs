@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Game.Core;
 
@@ -22,27 +21,29 @@ public class ItemSpawner : MonoBehaviour
         StartCoroutine(IESpawnItems());
     }
 
+    private void Start()
+    {
+        StartSpawn();
+    }
+
     private IEnumerator IESpawnItems()
     {
-        int count = 0;
-
         while (true)
         {
+            yield return new WaitForSeconds(SPAWN_DELAY);
+
             Item item = Instantiate(_item);
 
-            if (_keeper.TryAddItem(item, out Vector3 localPosition))
+            if (_keeper.CanAddItem(item, out Vector3 localPosition))
             {
-                item.transform.position = localPosition;
+                _keeper.AddItem(item);
 
-                item.name = $"{count}";
-                count++;
+                item.transform.localPosition = localPosition;
 
                 yield return new WaitForSeconds(_spawnDelay);
             }
             else
                 Destroy(item.gameObject);
-
-            yield return new WaitForSeconds(SPAWN_DELAY);
         }
     }
 }

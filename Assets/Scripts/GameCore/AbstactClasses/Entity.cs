@@ -27,5 +27,7 @@ namespace Game.Core
         public abstract void IncreaseLevel();
 
         public abstract void SetLevel(int level);
+
+        protected abstract void SetUpDataComponents();
     }
 }

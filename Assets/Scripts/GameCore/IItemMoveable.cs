@@ -4,6 +4,6 @@ namespace Game.Core
 {
     public interface IItemMoveable
     {
-        void Move(Item item, Vector3 movePosition);
+        bool Move(ItemKeeper giver, ItemKeeper receiver, Vector3 movePosition);
     }
 }

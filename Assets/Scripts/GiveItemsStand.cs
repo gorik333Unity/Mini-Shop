@@ -13,9 +13,6 @@ public class GiveItemsStand : Entity
     private Transform _standModelParent;
 
     [SerializeField]
-    private ItemSpawner _itemSpawner;
-
-    [SerializeField]
     private ItemKeeper _itemKeeper;
 
     private Transform[] _itemsPlacementPoint;
@@ -45,11 +42,9 @@ public class GiveItemsStand : Entity
     private void Start()
     {
         InitializeBehaviours();
-
-        _itemSpawner.StartSpawn();
     }
 
-    private void SetUpDataComponents()
+    protected override void SetUpDataComponents()
     {
         int desiredLevel = m_currentLevel;
 

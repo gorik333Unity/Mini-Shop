@@ -43,10 +43,6 @@ public class CommonPlayer : Entity
     private void Awake()
     {
         InitializeComponents();
-    }
-
-    private void OnEnable()
-    {
         SetUpDataComponents();
     }
 
@@ -60,7 +56,7 @@ public class CommonPlayer : Entity
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    private void SetUpDataComponents()
+    protected override void SetUpDataComponents()
     {
         int desiredLevel = m_currentLevel;
 

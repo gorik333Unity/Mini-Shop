@@ -5,11 +5,19 @@ namespace Game.Core
 {
     public class ItemJumpMoveBehaviour : MonoBehaviour, IItemMoveable
     {
-        public void Move(Item item, Vector3 movePosition)
+        public bool Move(ItemKeeper giver, ItemKeeper receiver, Vector3 movePosition)
         {
-            var itemTransform = item.transform;
+            Item givedItem = giver.GetItem();
 
-            itemTransform.DOLocalJump(movePosition, 1f, 1, 0.5f);
+            givedItem.transform.DOLocalJump(movePosition, 1, 1, 0.5f).OnComplete(() => OnComplete(givedItem, giver, receiver));
+
+            return false;
+        }
+
+        private void OnComplete(Item givedItem, ItemKeeper giver, ItemKeeper receiver)
+        {
+            giver.TryRemoveItem(givedItem);
+            receiver.AddItem(givedItem);
         }
     }
 }

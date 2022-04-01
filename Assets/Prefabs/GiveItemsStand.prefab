@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 3186645287258261614}
   - component: {fileID: 3186645287258261613}
   - component: {fileID: 3186645287258261612}
-  - component: {fileID: 3186645287258261603}
+  - component: {fileID: 2257217953231886676}
   m_Layer: 0
   m_Name: GiveItemsStand
   m_TagString: Untagged
@@ -82,7 +82,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c11fbf5c9377a34da2a0d0bc8404d67, type: 2}
   - {fileID: 11400000, guid: ea7f25080acb3154384a217e8458d7c7, type: 2}
   _standModelParent: {fileID: 3186645286842596389}
-  _itemSpawner: {fileID: 3186645287258261603}
   _itemKeeper: {fileID: 3186645287258261612}
 --- !u!114 &3186645287258261612
 MonoBehaviour:
@@ -97,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemsParent: {fileID: 3186645287294598830}
---- !u!114 &3186645287258261603
+--- !u!114 &2257217953231886676
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +135,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3186645287294598829}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3186645287258261614}

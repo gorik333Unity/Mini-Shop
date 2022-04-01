@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Game.Core
 {
@@ -8,22 +9,27 @@ namespace Game.Core
         [SerializeField]
         private float _receiveDelay;
 
-        private Coroutine _receiveItemC;
+        private readonly Dictionary<ItemKeeper, Coroutine> _receiveItemC = new Dictionary<ItemKeeper, Coroutine>();
 
         public override void InitializeBehaviours()
         {
-            SetItemMoveBehaviour(new ItemJumpMoveBehaviour());
+            SetItemMoveBehaviour(new ItemDirectMoveBehaviour());
         }
 
         protected override void StartItemProcess(ItemKeeper itemKeeper)
         {
-            _receiveItemC = StartCoroutine(IEReceiveItem(itemKeeper));
+            if (!_receiveItemC.ContainsKey(itemKeeper))
+                _receiveItemC.Add(itemKeeper, StartCoroutine(IEReceiveItem(itemKeeper)));
         }
 
         protected override void StopItemProcess(ItemKeeper itemKeeper)
         {
-            if (_receiveItemC != null)
-                StopCoroutine(_receiveItemC);
+            if (_receiveItemC.TryGetValue(itemKeeper, out Coroutine value))
+            {
+                _receiveItemC.Remove(itemKeeper);
+
+                StopCoroutine(value);
+            }
         }
 
         private void Start()
@@ -35,13 +41,11 @@ namespace Game.Core
         {
             while (true)
             {
-                if (otherKeeper.TryGetItem(out Item item))
+                if (otherKeeper.CanGetItem(out Item item))
                 {
-                    if (ItemKeeper.TryAddItem(item, out Vector3 localPosition))
+                    if (ItemKeeper.CanAddItem(item, out Vector3 localPosition))
                     {
-                        otherKeeper.TryRemoveItem(item);
-
-                        ExecuteItemMoveBehaviour(item, localPosition);
+                        ExecuteItemMoveBehaviour(otherKeeper, ItemKeeper, localPosition);
 
                         yield return new WaitForSeconds(_receiveDelay);
                     }
