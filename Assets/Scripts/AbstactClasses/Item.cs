@@ -5,6 +5,8 @@ namespace Game.Core
 {
     public abstract class Item : MonoBehaviour
     {
+        public Action<Item> OnTook;
+
         public int Price { get; private set; }
 
         public float MeshHeight { get; private set; }

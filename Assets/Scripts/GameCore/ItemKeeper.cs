@@ -50,7 +50,7 @@ namespace Game.Core
 
             try
             {
-                item = _item[0];
+                item = _item[_item.Count - 1];
 
                 return item;
             }
@@ -73,8 +73,9 @@ namespace Game.Core
             if (_item.Count == 0)
                 throw new ArgumentNullException("Item list is empty");
 
-            Item getItem = _item[0];
+            Item getItem = _item[_item.Count - 1];
 
+            _itemPlacement.RemovePlacedItem(getItem);
             _item.Remove(getItem);
             OnTook?.Invoke(getItem);
 
@@ -110,7 +111,7 @@ namespace Game.Core
         {
             int price = 0;
 
-            foreach(var item in _item)
+            foreach (var item in _item)
             {
                 price += item.Price;
             }

@@ -11,6 +11,10 @@ namespace Game.Core
             _keepItemsPoint = keepItemsPoint;
         }
 
+        public void RemovePlacedItem(Item placedItem)
+        {
+        }
+
         public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount, out Vector3 placePosition)
         {
             if (lastItem == null)

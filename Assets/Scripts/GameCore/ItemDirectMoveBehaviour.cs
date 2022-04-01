@@ -14,6 +14,8 @@ namespace Game.Core
 
         private void OnComplete(Item givedItem, ItemKeeper giver, ItemKeeper receiver)
         {
+            givedItem.OnTook?.Invoke(givedItem);
+
             giver.TryRemoveItem(givedItem);
             receiver.AddItem(givedItem);
         }

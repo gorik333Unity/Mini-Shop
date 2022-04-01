@@ -30,7 +30,7 @@ public class ItemSpawner : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(SPAWN_DELAY);
+            yield return SPAWN_DELAY;  
 
             Item item = Instantiate(_item);
 

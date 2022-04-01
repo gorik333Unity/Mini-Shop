@@ -27,6 +27,24 @@ namespace Game.Core
             }
         }
 
+        public void RemovePlacedItem(Item placedItem)
+        {
+            for (int i = 0; i < _keepItemsPoint.Count; i++)
+            {
+                var key = _keepItemsPoint.ElementAt(i).Key;
+
+                if (_keepItemsPoint.TryGetValue(key, out Item item))
+                {
+                    if (item == placedItem)
+                    {
+                        _keepItemsPoint[key] = null;
+
+                        break;
+                    }
+                }
+            }
+        }
+
         public bool TryPlaceItem(Item addedItem, Item lastItem, int itemCount, out Vector3 placePosition)
         {
             placePosition = default;
