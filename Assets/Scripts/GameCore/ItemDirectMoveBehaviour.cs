@@ -9,7 +9,7 @@ namespace Game.Core
         {
             Item givedItem = giver.GetItem();
 
-            givedItem.transform.DOLocalMove(movePosition, 0.5f).OnComplete(() => OnComplete(givedItem, giver, receiver));
+            givedItem.transform.DOLocalMove(movePosition, 0.3f).OnComplete(() => OnComplete(givedItem, giver, receiver));
         }
 
         private void OnComplete(Item givedItem, ItemKeeper giver, ItemKeeper receiver)
