@@ -64,9 +64,8 @@ namespace Game.Core
             if (_item.Contains(item))
                 throw new ArgumentException("Item is already in list");
 
-            OnAdded?.Invoke(item);
-
             _item.Add(item);
+            OnAdded?.Invoke(item);
         }
 
         public Item GetItem()
@@ -76,9 +75,8 @@ namespace Game.Core
 
             Item getItem = _item[0];
 
-            OnTook?.Invoke(getItem);
-
             _item.Remove(getItem);
+            OnTook?.Invoke(getItem);
 
             return getItem;
         }

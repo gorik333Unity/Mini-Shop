@@ -22,7 +22,7 @@ namespace Game.Core
             }
 
             placePosition = lastItem.transform.localPosition;
-            placePosition.y += addedItem.Height;
+            placePosition.y += addedItem.MeshHeight;
 
             return true;
         }

@@ -1,13 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Core
 {
     public abstract class Item : MonoBehaviour
     {
-        public float Height { get; private set; }
+        public int Price { get; private set; }
+
+        public float MeshHeight { get; private set; }
+
+        protected void SetPrice(int price)
+        {
+            Price = price;
+        }
 
         private void Start()
         {
@@ -24,7 +29,9 @@ namespace Game.Core
             if (meshFilter == null)
                 throw new ArgumentException("No mesh filter on the object.");
 
-            Height = meshFilter.sharedMesh.bounds.size.y * meshFilter.transform.localScale.y;
+            MeshHeight = meshFilter.sharedMesh.bounds.size.y * meshFilter.transform.localScale.y;
         }
+
+        protected abstract void SetUpItem();
     }
 }
