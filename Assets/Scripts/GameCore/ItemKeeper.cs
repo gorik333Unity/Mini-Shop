@@ -14,8 +14,8 @@ namespace Game.Core
         private int _maxCapacity;
         private IItemPlacement _itemPlacement;
 
-        public Action<Item> OnAdded;
-        public Action<Item> OnTook;
+        public event Action<Item> OnAdded;
+        public event Action<Item> OnTook;
 
         public void SetItemPlacementBehaviour(IItemPlacement itemPlacement)
         {

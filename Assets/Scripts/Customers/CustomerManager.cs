@@ -46,8 +46,11 @@ namespace Game.Customers
         {
             customer.Agent.SetDestination(_startPoint.position);
             StartCoroutine(IECheckIfCustomerOnStartPoint(customer));
+            MoveCoinsToUI(customer.GetPurchasesPrice());
+        }
 
-            int purchasesPrice = customer.GetPurchasesPrice();
+        private void MoveCoinsToUI(int purchasesPrice)
+        {
             _coinUI.AddCoins(purchasesPrice);
         }
 
