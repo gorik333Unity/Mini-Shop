@@ -5,11 +5,16 @@ namespace Game.Core
 {
     public abstract class Item : MonoBehaviour
     {
-        public Action<Item> OnTook;
+        public event Action<Item> OnTook;
 
         public int Price { get; private set; }
 
         public float MeshHeight { get; private set; }
+
+        public void OnTookEvent()
+        {
+            OnTook?.Invoke(this);
+        }
 
         protected void SetPrice(int price)
         {
